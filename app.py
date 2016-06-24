@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, abort, request, make_response, url_for
 from flask_httpauth import HTTPBasicAuth
 
-app = Flask(__name__, static_url_path="")
+app = Flask(__name__, static_url_path="/static")
 auth = HTTPBasicAuth()
 
 
@@ -52,6 +52,11 @@ def make_public_task(task):
         else:
             new_task[field] = task[field]
     return new_task
+
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
