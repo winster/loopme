@@ -5,10 +5,17 @@ from flask_script import Manager
 
 app = Flask(__name__, static_url_path="/static")
 
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://postgres:postgres@localhost:5432/postgres'
+#office
+#app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://postgres:postgres@localhost:5432/loopme'
+#home
+#app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://postgres:postgres@localhost:5432/postgres'
+#production
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql://dtauvzjgkrbxun:8wDfm8Eb1T84_LZgh0qayGyQsg@ec2-174-129-29-118.compute-1.amazonaws.com:5432/dfini92nqen64n'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'some_secret'
 db = SQLAlchemy(app)
+
 
 """Create Database migrations"""
 migrate = Migrate(app, db)

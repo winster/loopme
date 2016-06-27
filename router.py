@@ -5,6 +5,7 @@ import psycopg2
 import sqlalchemy
 import pyotp
 import logging
+from utils import email
 from model import Account, addAccount, session_commit
 from app import app
 FORMAT = '%(message)s'
@@ -86,13 +87,15 @@ def otp_send():
             act = Account(user_id, otp)
             account_added = addAccount(act)
             if account_added:
-                return jsonify({'result': 'created'})
+                res = jsonify({'result': 'created'})
             else:
                 act_cur = Account.query.filter_by(user_id=user_id).first()
                 print act_cur.as_dict()
                 act_cur.otp = otp
                 session_commit()
-                return jsonify({'result': 'modified'})
+                res = jsonify({'result': 'modified'})
+            email(user_id, otp)
+            return res
         except Exception,e:
             print str(e)
 
